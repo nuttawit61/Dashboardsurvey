@@ -5,6 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
+<script>try { if (sessionStorage.getItem('satisfaction2570_token')) document.documentElement.className += ' has-session'; } catch (e) {}</script>
 <title>Dashboard ความพึงพอใจ ศูนย์รับบริจาคเลือด 2570</title>
 <style>
   :root {
@@ -136,6 +137,8 @@
   .lbtn[disabled] { opacity: .65; cursor: progress; }
   .lnote { font-size: 12px; color: var(--muted); margin: 6px 0 0; border-top: 1px solid var(--line); padding-top: 12px; text-align: center; }
   body.locked .wrap { display: none; }
+  html.has-session .login { display: none; }
+  html.has-session body.locked .wrap { display: block; }
   .tip { position: fixed; pointer-events: none; z-index: 50; background: #2f2328; color: #fff; font-size: 12px; padding: 7px 10px; border-radius: 8px; line-height: 1.5; box-shadow: 0 6px 18px rgba(0,0,0,.18); display: none; max-width: 280px; }
   .loading { text-align: center; padding: 80px 10px; color: var(--ink-2); }
   .error { background: #fff3f3; border: 1px solid #f0c9c9; color: #8a1f1f; border-radius: 12px; padding: 14px 16px; margin: 16px 0; }
@@ -667,6 +670,7 @@
     });
   }
   function showLogin(message) {
+    document.documentElement.classList.remove('has-session');
     document.body.classList.add('locked');
     $('login').hidden = false;
     $('loginErr').textContent = message || '';
@@ -704,6 +708,7 @@
   function load() {
     const token = store.get();
     if (!token) { showLogin(''); return; }
+    showApp();
     $('refreshBtn').disabled = true;
     if (!state.loaded) $('app').innerHTML = '<div class="loading">กำลังโหลดข้อมูลจาก Google Sheet…</div>';
     server('getDashboardData', token).then(data => {
